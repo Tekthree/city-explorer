@@ -6,3 +6,9 @@ h1{
 .results-card{
   margin-top: 35px;
 }
+
+.image{
+  width: 100%;
+  height: 100%;
+  padding-bottom: 20px;
+}
