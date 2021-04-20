@@ -10,21 +10,24 @@ export default class App extends Component {
       searchQuery: "",
       location: {},
       image: "",
+      error: {},
     };
   }
 
   getSearch = async (event) => {
     event.preventDefault();
-    const apiUrlLocation = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_CITY_KEY}&q=${this.state.searchQuery}&format=json`;
+    try {
+      const apiUrlLocation = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_CITY_KEY}&q=${this.state.searchQuery}&format=json`;
+      const response = await axios.get(apiUrlLocation);
+      const apiUrlImage = `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_CITY_KEY}&center=${response.data[0].lat},${response.data[0].lon}&size=${window.innerWidth}x300&format=png&zoom=12`;
 
-    const response = await axios.get(apiUrlLocation);
-
-    const apiUrlImage = `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_CITY_KEY}&center=${response.data[0].lat},${response.data[0].lon}&size=${window.innerWidth}x300&format=png&zoom=12`;
-
-    console.log(response.data[0]);
-    this.setState({ location: response.data[0] });
-    this.setState({ image: apiUrlImage });
-    console.log(this.state.image);
+      console.log(response.data[0]);
+      this.setState({ location: response.data[0] });
+      this.setState({ image: apiUrlImage });
+      console.log(this.state.image);
+    } catch (err) {
+      this.setState({ error: err });
+    }
   };
 
   render() {
@@ -49,6 +52,11 @@ export default class App extends Component {
               Search
             </Button>
           </form>
+          {Object.keys(this.state.error).length === 0 ? (
+            <div></div>
+          ) : (
+            <h3>{this.state.error}</h3>
+          )}
         </Container>
         <Container>
           {
