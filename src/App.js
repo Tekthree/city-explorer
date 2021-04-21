@@ -2,7 +2,7 @@ import { Form, Container, Button, Card } from "react-bootstrap";
 import axios from "axios";
 import "./App.css";
 import React, { Component } from "react";
-import Weather from './components/weather.js'
+import Weather from "./components/weather.js";
 
 export default class App extends Component {
   constructor(props) {
@@ -12,6 +12,7 @@ export default class App extends Component {
       location: {},
       image: "",
       error: {},
+      weather: [],
     };
   }
 
@@ -23,12 +24,21 @@ export default class App extends Component {
       const apiUrlImage = `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_CITY_KEY}&center=${response.data[0].lat},${response.data[0].lon}&size=${window.innerWidth}x300&format=png&zoom=12`;
 
       console.log(response.data[0]);
+      this.getWeather();
       this.setState({ location: response.data[0] });
       this.setState({ image: apiUrlImage });
       console.log(this.state.image);
-    } catch (err) {
-      this.setState({ error: err });
-    }
+    } catch (err) {}
+  };
+
+  getWeather = async (event) => {
+    try {
+      const backendWeather = `http://localhost:3001/weather?`;
+      const response = await axios.get(backendWeather);
+      const weather = response.data[0];
+      this.setState({ weather: weather });
+      console.log("the is the weather response", this.state.weather);
+    } catch (err) {}
   };
 
   render() {
@@ -78,7 +88,7 @@ export default class App extends Component {
                   <Card.Text>{this.state.location.lat}</Card.Text>
                   <Card.Title>Longitude</Card.Title>
                   <Card.Text>{this.state.location.lon}</Card.Text>
-                  <Weather/>
+                  <Weather forecast={this.state.weather} />
                 </Card.Body>
               </Card>
             )
