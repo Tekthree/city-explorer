@@ -2,6 +2,7 @@ import { Form, Container, Button, Card } from "react-bootstrap";
 import axios from "axios";
 import "./App.css";
 import React, { Component } from "react";
+import Weather from './components/weather.js'
 
 export default class App extends Component {
   constructor(props) {
@@ -77,6 +78,7 @@ export default class App extends Component {
                   <Card.Text>{this.state.location.lat}</Card.Text>
                   <Card.Title>Longitude</Card.Title>
                   <Card.Text>{this.state.location.lon}</Card.Text>
+                  <Weather/>
                 </Card.Body>
               </Card>
             )
