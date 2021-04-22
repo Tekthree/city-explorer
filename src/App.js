@@ -111,7 +111,7 @@ export default class App extends Component {
                   <Weather forecast={this.state.weather} />
                 </Card.Body>
                 <Container fluid>
-                  <Card.Title>Movies</Card.Title>
+                  <Card.Title>Movies!!</Card.Title>
                   <CardColumns>
                     {this.state.movies.map((item, index) => {
                       return (
