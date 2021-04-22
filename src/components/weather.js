@@ -1,24 +1,19 @@
-import {Container,Card } from "react-bootstrap";
+import { Container, Card } from "react-bootstrap";
 import axios from "axios";
 import React, { Component } from "react";
-
-
 
 export default class Weather extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      
-    };
+    this.state = {};
   }
-
-
 
   render() {
     return (
       <div>
-        <h2>is this working Weather</h2>
+        <Card.Title>Date/Forcast</Card.Title>
+        <Card.Text>{this.props.forecast.date} - {this.props.forecast.description}</Card.Text>
       </div>
-    )
+    );
   }
 }
