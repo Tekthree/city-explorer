@@ -27,29 +27,26 @@ export default class App extends Component {
 
       this.setState({ location: response.data[0] });
       this.setState({ image: apiUrlImage });
-      console.log("this is location in getSearch", this.state.location.lat);
+
       this.getWeather();
       this.getMovies();
-    } catch (err) {}
-  };
-
-  getWeather = async (event) => {
-    try {
-      console.log(
-        "this is location inside getweather",
-        this.state.location.lat
-      );
-      const backendWeather = `http://localhost:3001/weather?lat=${this.state.location.lat}&lon=${this.state.location.lon}&city=${this.state.searchQuery}`;
-      const response = await axios.get(backendWeather);
-      const weather = response.data[0];
-      this.setState({ weather: weather });
-      console.log("the is the weather response", this.state.weather);
     } catch (err) {
       console.log(err);
     }
   };
 
-  getMovies = async (event) => {
+  getWeather = async () => {
+    try {
+      const backendWeather = `http://localhost:3001/weather?lat=${this.state.location.lat}&lon=${this.state.location.lon}&city=${this.state.searchQuery}`;
+      const response = await axios.get(backendWeather);
+      const weather = response.data[0];
+      this.setState({ weather: weather });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  getMovies = async () => {
     try {
       const backendMovies = `http://localhost:3001/movies?city=${this.state.searchQuery}`;
       const response = await axios.get(backendMovies);
@@ -110,28 +107,28 @@ export default class App extends Component {
                   <Card.Text>{this.state.location.lon}</Card.Text>
                   <Weather forecast={this.state.weather} />
                 </Card.Body>
-                <Container fluid>
-                  <Card.Title>Movies!!</Card.Title>
-                  <CardColumns>
-                    {this.state.movies.map((item, index) => {
-                      return (
-                        <>
-                          <Movies
-                            title={item.title}
-                            overview={item.overview}
-                            imgUrl={item.imageUrl}
-                            aveVotes={item.averageVotes}
-                            popularity={item.popularity}
-                            releasedDate={item.releasedDate}
-                          />
-                        </>
-                      );
-                    })}
-                  </CardColumns>
-                </Container>
               </Card>
             )
           }
+        </Container>
+        <Container>
+          <Card.Title>Movies!!</Card.Title>
+          <CardColumns>
+            {this.state.movies.map((item, index) => {
+              return (
+                <>
+                  <Movies
+                    title={item.title}
+                    overview={item.overview}
+                    imgUrl={item.imageUrl}
+                    aveVotes={item.averageVotes}
+                    popularity={item.popularity}
+                    releasedDate={item.releasedDate}
+                  />
+                </>
+              );
+            })}
+          </CardColumns>
         </Container>
       </div>
     );

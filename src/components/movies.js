@@ -6,7 +6,7 @@ export default class Movies extends Component {
     return (
       <div>
         <Card bg="dark" text="light">
-          <Card.Img src={this.props.imageUrl}></Card.Img>
+          <Card.Img src={`https://image.tmdb.org/t/p/w500${this.props.imgUrl}`}></Card.Img>
           <Card.Body>
             <Card.Title>{this.props.title}</Card.Title>
             <Card.Text>😍 = {this.props.aveVotes}</Card.Text>
