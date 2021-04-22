@@ -109,25 +109,26 @@ export default class App extends Component {
                   <Card.Title>Longitude</Card.Title>
                   <Card.Text>{this.state.location.lon}</Card.Text>
                   <Weather forecast={this.state.weather} />
-                  <Container fluid>
-                    <CardColumns>
-                      {this.state.movies.map((item, index) => {
-                        return (
-                          <>
-                            <Movies
-                              title={item.title}
-                              overview={item.overview}
-                              imgUrl={item.imageUrl}
-                              aveVotes={item.averageVotes}
-                              popularity={item.popularity}
-                              releasedDate={item.releasedDate}
-                            />
-                          </>
-                        );
-                      })}
-                    </CardColumns>
-                  </Container>
                 </Card.Body>
+                <Container fluid>
+                  <Card.Title>Movies</Card.Title>
+                  <CardColumns>
+                    {this.state.movies.map((item, index) => {
+                      return (
+                        <>
+                          <Movies
+                            title={item.title}
+                            overview={item.overview}
+                            imgUrl={item.imageUrl}
+                            aveVotes={item.averageVotes}
+                            popularity={item.popularity}
+                            releasedDate={item.releasedDate}
+                          />
+                        </>
+                      );
+                    })}
+                  </CardColumns>
+                </Container>
               </Card>
             )
           }

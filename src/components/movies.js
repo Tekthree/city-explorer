@@ -9,8 +9,10 @@ export default class Movies extends Component {
           <Card.Img src={this.props.imageUrl}></Card.Img>
           <Card.Body>
             <Card.Title>{this.props.title}</Card.Title>
-            <Card.Text>😍 = {this.props.averageVotes}</Card.Text>
+            <Card.Text>😍 = {this.props.aveVotes}</Card.Text>
             <Card.Text>{this.props.overview}</Card.Text>
+            <Card.Text>Popularity: {this.props.popularity}</Card.Text>
+            <Card.Text>Released: {this.props.releasedDate}</Card.Text>
           </Card.Body>
         </Card>
       </div>
