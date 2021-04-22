@@ -1,8 +1,9 @@
-import { Form, Container, Button, Card } from "react-bootstrap";
+import { Form, Container, Button, Card, CardColumns } from "react-bootstrap";
 import axios from "axios";
 import "./App.css";
 import React, { Component } from "react";
 import Weather from "./components/weather.js";
+import Movies from "./components/movies.js";
 
 export default class App extends Component {
   constructor(props) {
@@ -13,6 +14,7 @@ export default class App extends Component {
       image: "",
       error: {},
       weather: [],
+      movies: [],
     };
   }
 
@@ -23,22 +25,40 @@ export default class App extends Component {
       const response = await axios.get(apiUrlLocation);
       const apiUrlImage = `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_CITY_KEY}&center=${response.data[0].lat},${response.data[0].lon}&size=${window.innerWidth}x300&format=png&zoom=12`;
 
-      console.log(response.data[0]);
-      this.getWeather();
       this.setState({ location: response.data[0] });
       this.setState({ image: apiUrlImage });
-      console.log(this.state.image);
+      console.log("this is location in getSearch", this.state.location.lat);
+      this.getWeather();
+      this.getMovies();
     } catch (err) {}
   };
 
   getWeather = async (event) => {
     try {
-      const backendWeather = `http://localhost:3001/weather?`;
+      console.log(
+        "this is location inside getweather",
+        this.state.location.lat
+      );
+      const backendWeather = `http://localhost:3001/weather?lat=${this.state.location.lat}&lon=${this.state.location.lon}&city=${this.state.searchQuery}`;
       const response = await axios.get(backendWeather);
       const weather = response.data[0];
       this.setState({ weather: weather });
       console.log("the is the weather response", this.state.weather);
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  getMovies = async (event) => {
+    try {
+      const backendMovies = `http://localhost:3001/movies?city=${this.state.searchQuery}`;
+      const response = await axios.get(backendMovies);
+      const movies = response.data;
+      this.setState({ movies: movies });
+      console.log("the is the movies response", this.state.movies);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   render() {
@@ -89,6 +109,24 @@ export default class App extends Component {
                   <Card.Title>Longitude</Card.Title>
                   <Card.Text>{this.state.location.lon}</Card.Text>
                   <Weather forecast={this.state.weather} />
+                  <Container fluid>
+                    <CardColumns>
+                      {this.state.movies.map((item, index) => {
+                        return (
+                          <>
+                            <Movies
+                              title={item.title}
+                              overview={item.overview}
+                              imgUrl={item.imageUrl}
+                              aveVotes={item.averageVotes}
+                              popularity={item.popularity}
+                              releasedDate={item.releasedDate}
+                            />
+                          </>
+                        );
+                      })}
+                    </CardColumns>
+                  </Container>
                 </Card.Body>
               </Card>
             )
