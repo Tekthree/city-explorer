@@ -39,7 +39,7 @@ export default class App extends Component {
     try {
       const backendWeather = `http://localhost:3001/weather?lat=${this.state.location.lat}&lon=${this.state.location.lon}&city=${this.state.searchQuery}`;
       const response = await axios.get(backendWeather);
-      const weather = response.data[0];
+      const weather = response.data;
       this.setState({ weather: weather });
     } catch (err) {
       console.log(err);
@@ -86,49 +86,76 @@ export default class App extends Component {
             <h3>{this.state.error}</h3>
           )}
         </Container>
+
         <Container>
           {
             //Check if searched then display card
             Object.keys(this.state.location).length === 0 ? (
               <div></div>
             ) : (
-              <Card className="results-card">
-                <Card.Header>{this.state.location.display_name}</Card.Header>
-                <Card.Body>
-                  <Card.Title>Image</Card.Title>
-                  <img
-                    className="image"
-                    src={this.state.image}
-                    alt="location map"
-                  ></img>
-                  <Card.Title>Latitude</Card.Title>
-                  <Card.Text>{this.state.location.lat}</Card.Text>
-                  <Card.Title>Longitude</Card.Title>
-                  <Card.Text>{this.state.location.lon}</Card.Text>
-                  <Weather forecast={this.state.weather} />
-                </Card.Body>
-              </Card>
+              <div>
+                <Card className="results-card">
+                  <Card.Header>{this.state.location.display_name}</Card.Header>
+                  <Card.Body>
+                    <Card.Title>Image</Card.Title>
+                    <img
+                      className="image"
+                      src={this.state.image}
+                      alt="location map"
+                    ></img>
+                    <Card.Title>Latitude</Card.Title>
+                    <Card.Text>{this.state.location.lat}</Card.Text>
+                    <Card.Title>Longitude</Card.Title>
+                    <Card.Text>{this.state.location.lon}</Card.Text>
+                  </Card.Body>
+                </Card>
+                <div className="weather-wrapper">
+                  <h4>Weather Forcast</h4>
+                  <CardColumns>
+                    {this.state.weather.map((item, index) => {
+                      return (
+                        <>
+                          <Weather
+                            description={item.description}
+                            dateTime={item.date}
+                          />
+                        </>
+                      );
+                    })}
+                  </CardColumns>
+                </div>
+              </div>
             )
           }
         </Container>
+
         <Container>
-          <Card.Title>Movies!!</Card.Title>
-          <CardColumns>
-            {this.state.movies.map((item, index) => {
-              return (
-                <>
-                  <Movies
-                    title={item.title}
-                    overview={item.overview}
-                    imgUrl={item.imageUrl}
-                    aveVotes={item.averageVotes}
-                    popularity={item.popularity}
-                    releasedDate={item.releasedDate}
-                  />
-                </>
-              );
-            })}
-          </CardColumns>
+          {
+            //Check if searched then display card
+            Object.keys(this.state.location).length === 0 ? (
+              <div></div>
+            ) : (
+              <div className="movie-wrapper">
+                <h4>Movies</h4>
+                <CardColumns>
+                  {this.state.movies.map((item, index) => {
+                    return (
+                      <>
+                        <Movies
+                          title={item.title}
+                          overview={item.overview}
+                          imgUrl={item.imageUrl}
+                          aveVotes={item.averageVotes}
+                          popularity={item.popularity}
+                          releasedDate={item.releasedDate}
+                        />
+                      </>
+                    );
+                  })}
+                </CardColumns>
+              </div>
+            )
+          }
         </Container>
       </div>
     );

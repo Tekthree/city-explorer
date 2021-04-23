@@ -10,8 +10,17 @@ export default class Weather extends Component {
   render() {
     return (
       <div>
-        <Card.Title>Date/Forcast</Card.Title>
-        <Card.Text>{this.props.forecast.date} - {this.props.forecast.description}</Card.Text>
+        <Card bg="dark" text="light">
+          <Card.Img
+            src={``}
+          ></Card.Img>
+          <Card.Body>
+            <Card.Title>Date/Forcast</Card.Title>
+            <Card.Text>
+              {this.props.dateTime} - {this.props.description}
+            </Card.Text>
+          </Card.Body>
+        </Card>
       </div>
     );
   }
