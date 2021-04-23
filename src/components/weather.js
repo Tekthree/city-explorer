@@ -1,5 +1,4 @@
-import { Container, Card } from "react-bootstrap";
-import axios from "axios";
+import { Card } from "react-bootstrap";
 import React, { Component } from "react";
 
 export default class Weather extends Component {
