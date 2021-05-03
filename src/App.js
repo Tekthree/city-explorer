@@ -37,7 +37,7 @@ export default class App extends Component {
 
   getWeather = async () => {
     try {
-      const backendWeather = `http://localhost:3001/weather?lat=${this.state.location.lat}&lon=${this.state.location.lon}&city=${this.state.searchQuery}`;
+      const backendWeather = `https://city-exp-api.herokuapp.com//weather?lat=${this.state.location.lat}&lon=${this.state.location.lon}&city=${this.state.searchQuery}`;
       const response = await axios.get(backendWeather);
       const weather = response.data;
       this.setState({ weather: weather });
@@ -48,7 +48,7 @@ export default class App extends Component {
 
   getMovies = async () => {
     try {
-      const backendMovies = `http://localhost:3001/movies?city=${this.state.searchQuery}`;
+      const backendMovies = `https://city-exp-api.herokuapp.com//movies?city=${this.state.searchQuery}`;
       const response = await axios.get(backendMovies);
       const movies = response.data;
       this.setState({ movies: movies });
@@ -116,6 +116,7 @@ export default class App extends Component {
                       return (
                         <>
                           <Weather
+                            key={item}
                             description={item.description}
                             dateTime={item.date}
                           />
@@ -142,6 +143,7 @@ export default class App extends Component {
                     return (
                       <>
                         <Movies
+                          key={item}
                           title={item.title}
                           overview={item.overview}
                           imgUrl={item.imageUrl}
